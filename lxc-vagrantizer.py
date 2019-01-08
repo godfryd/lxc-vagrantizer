@@ -94,7 +94,8 @@ class LXC(object):
         self.name = '%s-%s-bare' % (system, revision)
 
         rev_map = {
-            'debian': {'8': 'jessie', '9': 'stretch'}
+            'debian': {'8': 'jessie', '9': 'stretch'},
+            'ubuntu': {'14.04': 'trusty', '16.04': 'xenial', '18.10': 'cosmic'}
         }
         try:
             self.alt_revision = rev_map[system][revision]
@@ -151,12 +152,14 @@ def install_extras(lxc):
     time.sleep(5)  # wait for network
     if lxc.system in ['debian', 'ubuntu']:
         lxc.execute('apt update')
-        lxc.execute('apt upgrade')
+        lxc.execute('apt upgrade -y')
         packages = ['vim', 'wget', 'openssh-server', 'ca-certificates', 'sudo', 'python3']
-        if lxc.system == 'debian' and lxc.revision == '8':
+        if lxc.system == 'debian' and lxc.revision == '8' or lxc.system == 'ubuntu' and lxc.revision == '16.04':
             packages.extend(['dbus', 'libnss-myhostname'])
             lxc.execute('mkdir -p /etc/systemd/system/systemd-hostnamed.service.d')
             lxc.execute('bash -c "echo -e \'[Service]\\nPrivateDevices=no\\n\' > /etc/systemd/system/systemd-hostnamed.service.d/override.conf"')
+        elif lxc.system == 'ubuntu' and lxc.revision == '14.04':
+            lxc.execute('mount -o remount,ro /sys/fs/selinux')
         cmd = 'apt install -y '
         cmd += ' '.join(packages)
         lxc.execute(cmd)
@@ -164,6 +167,12 @@ def install_extras(lxc):
         lxc.execute('dnf upgrade -y')
         packages = ['vim-enhanced', 'wget', 'openssh-server', 'ca-certificates', 'sudo', 'python3']
         cmd = 'dnf install -y '
+        cmd += ' '.join(packages)
+        lxc.execute(cmd)
+    elif lxc.system in ['centos']:
+        lxc.execute('yum upgrade -y')
+        packages = ['vim-enhanced', 'wget', 'openssh-server', 'ca-certificates', 'sudo', 'python3']
+        cmd = 'yum install -y '
         cmd += ' '.join(packages)
         lxc.execute(cmd)
     else:
@@ -178,8 +187,10 @@ def clean(lxc):
     log.info('Cleaning...')
     if lxc.system in ['debian', 'ubuntu']:
         lxc.execute('apt-get clean')
-    if lxc.system in ['fedora', 'centos']:
+    elif lxc.system in ['fedora']:
         lxc.execute('dnf clean packages')
+    elif lxc.system in ['centos']:
+        lxc.execute('yum clean packages')
 
     lxc.stop()
 
@@ -261,8 +272,11 @@ def package(lxc):
 
     if not os.path.exists('work'):
         os.mkdir('work')
-    working_dir = os.path.abspath(os.path.join('work', lxc.name))
 
+    if os.path.exists(pkg_path):
+        os.unlink(pkg_path)
+
+    working_dir = os.path.abspath(os.path.join('work', lxc.name))
     if os.path.exists(working_dir):
         execute('sudo rm -rf %s' % working_dir)
     os.mkdir(working_dir)

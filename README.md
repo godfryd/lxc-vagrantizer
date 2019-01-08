@@ -10,6 +10,9 @@ It is derived from https://github.com/fgrehm/vagrant-lxc-base-boxes. It is a rew
 * Debian
   - Jessie, 8
   - Stretch, 9
+* Ubuntu
+  - 16.04
+  - 18.10
 * Fedora
   - 29
 
@@ -25,11 +28,13 @@ cd lxc-vagrantizer
 
 ## Pre built base boxes
 
-_**NOTE:** None of the base boxes below have a provisioner pre-installed_
-
 | Distribution | VagrantCloud box |
 | ------------ | ---------------- |
 | Debian 8 Jessie | [godfryd/lxc-debian-8](https://vagrantcloud.com/godfryd/lxc-debian-8) |
+| Debian 9 Stretch | [godfryd/lxc-debian-9](https://vagrantcloud.com/godfryd/lxc-debian-9) |
+| Ubuntu 16.04 | [godfryd/lxc-ubuntu-16.04](https://vagrantcloud.com/godfryd/lxc-ubuntu-16.04) |
+| Ubuntu 18.10 | [godfryd/lxc-ubuntu-18.10](https://vagrantcloud.com/godfryd/lxc-ubuntu-18.10) |
+| Fedora 29 | [godfryd/lxc-fedora-29](https://vagrantcloud.com/godfryd/lxc-fedora-29) |
 
 
 ## What makes up for a vagrant-lxc base box?
