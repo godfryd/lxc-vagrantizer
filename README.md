@@ -26,6 +26,10 @@ cd lxc-vagrantizer
 ./lxc-vagrantizer build -s debian -r 8
 ```
 
+Example:
+
+[![demo](https://asciinema.org/a/220315.svg)](https://asciinema.org/a/220315?autoplay=1)
+
 ## Pre built base boxes
 
 | Distribution | VagrantCloud box |
