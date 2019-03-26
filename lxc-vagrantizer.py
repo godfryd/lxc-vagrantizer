@@ -3,13 +3,16 @@ from __future__ import print_function
 import os
 import sys
 import glob
-import argparse
 import time
-import platform
-import subprocess
+import json
 import logging
+import argparse
+import platform
 import datetime
+import subprocess
+import urllib.request
 import multiprocessing
+
 log = logging.getLogger()
 
 
@@ -95,7 +98,7 @@ class LXC(object):
 
         rev_map = {
             'debian': {'8': 'jessie', '9': 'stretch'},
-            'ubuntu': {'14.04': 'trusty', '16.04': 'xenial', '18.10': 'cosmic'}
+            'ubuntu': {'14.04': 'trusty', '16.04': 'xenial', '18.04': 'bionic', '18.10': 'cosmic'}
         }
         try:
             self.alt_revision = rev_map[system][revision]
@@ -170,6 +173,7 @@ def install_extras(lxc):
         cmd += ' '.join(packages)
         lxc.execute(cmd)
     elif lxc.system in ['centos']:
+        time.sleep(5)  # 5secs more for network
         lxc.execute('yum upgrade -y')
         packages = ['vim-enhanced', 'wget', 'openssh-server', 'ca-certificates', 'sudo', 'python3']
         cmd = 'yum install -y '
@@ -236,6 +240,8 @@ def setup_vagrant_user(lxc):
     #  fi
     elif lxc.system in ['debian', 'ubuntu']:
         log.debug('Creating vagrant user...')
+        if lxc.system == 'ubuntu':
+            execute('sudo chroot %s userdel ubuntu' % rootfs_dir)
         execute('sudo chroot %s useradd --create-home -s /bin/bash vagrant' % rootfs_dir)
         execute('sudo chroot %s adduser vagrant sudo' % rootfs_dir)
         execute("bash -c \"echo -n 'vagrant:vagrant' | sudo chroot %s chpasswd\"" % rootfs_dir)
@@ -286,11 +292,6 @@ def package(lxc):
 
     # Prepare package contents
     log.info('Preparing box package contents')
-    # if [ -f conf/${DISTRIBUTION}-${RELEASE} ]; then
-    #   cp conf/${DISTRIBUTION}-${RELEASE} ${WORKING_DIR}/lxc-config
-    # else
-    #   cp conf/${DISTRIBUTION} ${WORKING_DIR}/lxc-config
-    # fi
     execute('sudo cp lxc-confs/%s-%s %s/lxc-config' % (lxc.system, lxc.revision, working_dir))
     execute('sudo chown `id -un`:`id -gn` *', cwd=working_dir)
 
@@ -306,6 +307,45 @@ def package(lxc):
     log.info('Packaging box')
     execute('tar -czf %s ./*' % pkg_path, cwd=working_dir)
     execute('sudo rm -rf %s' % working_dir)
+
+    return pkg_path
+
+
+def upload(org_name, system, revision, box_path):
+    # retrieve metadata from the cloud
+    box_name = "%s/lxc-%s-%s" % (org_name, system, revision)
+    url = 'https://app.vagrantup.com/api/v1/box/' + box_name
+    try:
+        with urllib.request.urlopen(url) as response:
+            data = response.read()
+        data = json.loads(data)
+    except:
+        log.exception('ignored exception')
+        data = None
+
+    # establish latest version
+    if data and 'versions' not in data:
+        latest_version = 0
+        for ver in data['versions']:
+            provider_found = False
+            for p in ver['providers']:
+                if p['name'] == 'lxc':
+                    provider_found = True
+                    break
+            if provider_found:
+                v = int(ver['number'])
+                if v > latest_version:
+                    latest_version = v
+    else:
+        latest_version = 0
+
+    # upload image to the cloud
+    new_version = latest_version + 1
+
+    cmd = "vagrant cloud publish -f -r %s %s lxc %s"
+    cmd = cmd % (box_name, new_version, box_path)
+
+    execute(cmd, timeout=60)
 
 
 def list_systems():
@@ -334,6 +374,7 @@ def parse_args():
     parser.add_argument('-n', '--dry-run', action='store_true', help='Print only what would be done.')
     parser.add_argument('-c', '--clean-start', action='store_true', help='If there is pre-existing system then it is destroyed first.')
     parser.add_argument('-i', '--check-times', action='store_true', help='Do not allow executing commands infinitelly.')
+    parser.add_argument('-u', '--upload', help='Upload to Vagrant Cloud under indicated org name.')
 
     args = parser.parse_args()
 
@@ -352,9 +393,6 @@ def main():
         list_systems()
 
     elif args.command == "build":
-
-        #create_container('ubuntu', 'cosmic')
-        #lxc = LXC('debian', 'stretch')
 
         if args.system == 'all':
             systems = SYSTEMS.keys()
@@ -385,10 +423,12 @@ def main():
                 install_extras(lxc)
                 setup_vagrant_user(lxc)
                 clean(lxc)
-                package(lxc)
+                box_path = package(lxc)
+                if args.upload:
+                    upload(args.upload, system, revision, box_path)
             except:
                 log.exception('something went wrong')
-                #lxc.destroy()
+                lxc.destroy()
 
     elif args.command == "ensure-lxc-vagrantizer-deps":
         ensure_lxc_vagrantizer_deps()
