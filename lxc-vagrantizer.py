@@ -17,12 +17,12 @@ log = logging.getLogger()
 
 
 SYSTEMS = {
-    'fedora': ['27', '28', '29'],
+    'fedora': ['27', '28', '29', '30'],
     'centos': ['7'],
     #'rhel': ['7', '8'],
     'rhel': ['8'],
-    'ubuntu': ['16.04', '18.04', '18.10'],
-    'debian': ['8', '9'],
+    'ubuntu': ['16.04', '18.04', '18.10', '19.04'],
+    'debian': ['8', '9', '10'],
 }
 
 
@@ -97,8 +97,14 @@ class LXC(object):
         self.name = '%s-%s-bare' % (system, revision)
 
         rev_map = {
-            'debian': {'8': 'jessie', '9': 'stretch'},
-            'ubuntu': {'14.04': 'trusty', '16.04': 'xenial', '18.04': 'bionic', '18.10': 'cosmic'}
+            'debian': {'8': 'jessie',
+                       '9': 'stretch',
+                       '10': 'buster'},
+            'ubuntu': {'14.04': 'trusty',
+                       '16.04': 'xenial',
+                       '18.04': 'bionic',
+                       '18.10': 'cosmic',
+                       '19.04': 'disco'}
         }
         try:
             self.alt_revision = rev_map[system][revision]
