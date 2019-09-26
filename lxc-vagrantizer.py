@@ -23,6 +23,7 @@ SYSTEMS = {
     'rhel': ['8'],
     'ubuntu': ['16.04', '18.04', '18.10', '19.04'],
     'debian': ['8', '9', '10'],
+    'alpine': ['3.10', 'edge'],
 }
 
 
@@ -185,6 +186,11 @@ def install_extras(lxc):
         cmd = 'yum install -y '
         cmd += ' '.join(packages)
         lxc.execute(cmd)
+    elif lxc.system in ['alpine']:
+        lxc.execute('apk update')
+        lxc.execute('apk upgrade')
+        lxc.execute('apk add vim wget openssh ca-certificates sudo python3 bash')
+        lxc.execute('rc-update add sshd')
     else:
         print(lxc.system)
         raise NotImplementedError
@@ -256,6 +262,11 @@ def setup_vagrant_user(lxc):
         execute('sudo chroot %s useradd --create-home -s /bin/bash -u 1000 vagrant' % rootfs_dir)
         execute("bash -c \"echo -n 'vagrant:vagrant' | sudo chroot %s chpasswd\"" % rootfs_dir)
         execute("sudo sed -i 's/^Defaults\s\+requiretty/# Defaults requiretty/' %s/etc/sudoers" % rootfs_dir)
+    elif lxc.system in ['alpine']:
+        log.debug('Creating vagrant user...')
+        execute('sudo chroot %s adduser -D vagrant' % rootfs_dir)
+        execute("bash -c \"echo -n 'vagrant:vagrant' | sudo chroot %s chpasswd\"" % rootfs_dir)
+        execute("bash -c \"echo -n 'vagrant ALL=(ALL) NOPASSWD: ALL' | sudo chroot %s tee /etc/sudoers.d/vagrant\"" % rootfs_dir)
     else:
         raise NotImplementedError
 
@@ -329,10 +340,13 @@ def upload(org_name, system, revision, box_path):
         log.exception('ignored exception')
         data = None
 
+    log.info(data)
+
     # establish latest version
-    if data and 'versions' not in data:
+    if data and 'versions' in data:
         latest_version = 0
         for ver in data['versions']:
+            log.info(ver)
             provider_found = False
             for p in ver['providers']:
                 if p['name'] == 'lxc':
