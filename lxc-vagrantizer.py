@@ -105,7 +105,8 @@ class LXC(object):
                        '16.04': 'xenial',
                        '18.04': 'bionic',
                        '18.10': 'cosmic',
-                       '19.04': 'disco'}
+                       '19.04': 'disco',
+                       '19.10': 'eoan'}
         }
         try:
             self.alt_revision = rev_map[system][revision]
