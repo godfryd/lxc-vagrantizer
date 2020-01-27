@@ -45,20 +45,20 @@ Example:
 
 | Distribution | VagrantCloud box |
 | ------------ | ---------------- |
-| Debian 8 Jessie | [godfryd/lxc-debian-8](https://vagrantcloud.com/isc/lxc-debian-8) |
-| Debian 9 Stretch | [godfryd/lxc-debian-9](https://vagrantcloud.com/isc/lxc-debian-9) |
-| Debian 10 Buster | [godfryd/lxc-debian-10](https://vagrantcloud.com/isc/lxc-debian-10) |
-| Ubuntu 16.04 | [godfryd/lxc-ubuntu-16.04](https://vagrantcloud.com/isc/lxc-ubuntu-16.04) |
-| Ubuntu 18.04 | [godfryd/lxc-ubuntu-18.04](https://vagrantcloud.com/isc/lxc-ubuntu-18.04) |
-| Ubuntu 18.10 | [godfryd/lxc-ubuntu-18.10](https://vagrantcloud.com/isc/lxc-ubuntu-18.10) |
-| Ubuntu 19.04 | [godfryd/lxc-ubuntu-19.04](https://vagrantcloud.com/isc/lxc-ubuntu-19.04) |
-| Ubuntu 19.10 | [godfryd/lxc-ubuntu-19.10](https://vagrantcloud.com/isc/lxc-ubuntu-19.10) |
-| Fedora 29 | [godfryd/lxc-fedora-29](https://vagrantcloud.com/isc/lxc-fedora-29) |
-| Fedora 30 | [godfryd/lxc-fedora-30](https://vagrantcloud.com/isc/lxc-fedora-30) |
-| Fedora 31 | [godfryd/lxc-fedora-31](https://vagrantcloud.com/isc/lxc-fedora-31) |
-| Alpine 3.10 | [godfryd/lxc-alpine-3.10](https://vagrantcloud.com/isc/lxc-alpine-3.10) |
-| CentOS 7 | [godfryd/lxc-centos-7](https://vagrantcloud.com/isc/lxc-centos-7) |
-| CentOS 8 | [godfryd/lxc-centos-8](https://vagrantcloud.com/isc/lxc-centos-8) |
+| Debian 8 Jessie | [isc/lxc-debian-8](https://vagrantcloud.com/isc/lxc-debian-8) |
+| Debian 9 Stretch | [isc/lxc-debian-9](https://vagrantcloud.com/isc/lxc-debian-9) |
+| Debian 10 Buster | [isc/lxc-debian-10](https://vagrantcloud.com/isc/lxc-debian-10) |
+| Ubuntu 16.04 | [isc/lxc-ubuntu-16.04](https://vagrantcloud.com/isc/lxc-ubuntu-16.04) |
+| Ubuntu 18.04 | [isc/lxc-ubuntu-18.04](https://vagrantcloud.com/isc/lxc-ubuntu-18.04) |
+| Ubuntu 18.10 | [isc/lxc-ubuntu-18.10](https://vagrantcloud.com/isc/lxc-ubuntu-18.10) |
+| Ubuntu 19.04 | [isc/lxc-ubuntu-19.04](https://vagrantcloud.com/isc/lxc-ubuntu-19.04) |
+| Ubuntu 19.10 | [isc/lxc-ubuntu-19.10](https://vagrantcloud.com/isc/lxc-ubuntu-19.10) |
+| Fedora 29 | [isc/lxc-fedora-29](https://vagrantcloud.com/isc/lxc-fedora-29) |
+| Fedora 30 | [isc/lxc-fedora-30](https://vagrantcloud.com/isc/lxc-fedora-30) |
+| Fedora 31 | [isc/lxc-fedora-31](https://vagrantcloud.com/isc/lxc-fedora-31) |
+| Alpine 3.10 | [isc/lxc-alpine-3.10](https://vagrantcloud.com/isc/lxc-alpine-3.10) |
+| CentOS 7 | [isc/lxc-centos-7](https://vagrantcloud.com/isc/lxc-centos-7) |
+| CentOS 8 | [isc/lxc-centos-8](https://vagrantcloud.com/isc/lxc-centos-8) |
 
 
 ## What makes up for a vagrant-lxc base box?
