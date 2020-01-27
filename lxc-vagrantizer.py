@@ -174,13 +174,13 @@ def install_extras(lxc):
         cmd = 'apt install -y '
         cmd += ' '.join(packages)
         lxc.execute(cmd)
-    elif lxc.system in ['fedora']:
+    elif lxc.system == 'fedora' or (lxc.system == 'centos' and lxc.revision == '8'):
         lxc.execute('dnf upgrade -y')
         packages = ['vim-enhanced', 'wget', 'openssh-server', 'ca-certificates', 'sudo', 'python3']
         cmd = 'dnf install -y '
         cmd += ' '.join(packages)
         lxc.execute(cmd)
-    elif lxc.system in ['centos']:
+    elif lxc.system == 'centos' and lxc.revision == '7':
         time.sleep(5)  # 5secs more for network
         lxc.execute('yum upgrade -y')
         packages = ['vim-enhanced', 'wget', 'openssh-server', 'ca-certificates', 'sudo', 'python3']
@@ -204,9 +204,9 @@ def clean(lxc):
     log.info('Cleaning...')
     if lxc.system in ['debian', 'ubuntu']:
         lxc.execute('apt-get clean')
-    elif lxc.system in ['fedora']:
+    elif lxc.system == 'fedora' or (lxc.system == 'centos' and lxc.revision == '8'):
         lxc.execute('dnf clean packages')
-    elif lxc.system in ['centos']:
+    elif lxc.system == 'centos' and lxc.revision == '7':
         lxc.execute('yum clean packages')
 
     lxc.stop()
