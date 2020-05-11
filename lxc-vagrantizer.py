@@ -17,7 +17,7 @@ log = logging.getLogger()
 
 
 SYSTEMS = {
-    'fedora': ['29', '30', '31'],
+    'fedora': ['29', '30', '31', '32'],
     'centos': ['7', '8'],
     #'rhel': ['7', '8'],
     'rhel': ['8'],
@@ -106,7 +106,9 @@ class LXC(object):
                        '18.04': 'bionic',
                        '18.10': 'cosmic',
                        '19.04': 'disco',
-                       '19.10': 'eoan'}
+                       '19.10': 'eoan',
+                       '20.04': 'focal',
+                       '20.10': 'groovy'}
         }
         try:
             self.alt_revision = rev_map[system][revision]
