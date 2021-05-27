@@ -17,13 +17,13 @@ log = logging.getLogger()
 
 
 SYSTEMS = {
-    'fedora': ['29', '30', '31', '32'],
+    'fedora': ['29', '30', '31', '32', '33', '34'],
     'centos': ['7', '8'],
     #'rhel': ['7', '8'],
     'rhel': ['8'],
-    'ubuntu': ['16.04', '18.04', '18.10', '19.04', '19.10', '20.04'],
+    'ubuntu': ['16.04', '18.04', '18.10', '19.04', '19.10', '20.04', '21.04'],
     'debian': ['8', '9', '10'],
-    'alpine': ['3.10', '3.11', '3.12', 'edge'],
+    'alpine': ['3.10', '3.11', '3.12', '3.13', 'edge'],
 }
 
 
@@ -108,7 +108,8 @@ class LXC(object):
                        '19.04': 'disco',
                        '19.10': 'eoan',
                        '20.04': 'focal',
-                       '20.10': 'groovy'}
+                       '20.10': 'groovy',
+                       '21.04': 'hirsute'}
         }
         try:
             self.alt_revision = rev_map[system][revision]
@@ -365,7 +366,7 @@ def upload(org_name, system, revision, box_path):
     # upload image to the cloud
     new_version = latest_version + 1
 
-    cmd = "vagrant cloud publish -f -r %s %s lxc %s"
+    cmd = "vagrant cloud publish --no-private -f -r %s %s lxc %s"
     cmd = cmd % (box_name, new_version, box_path)
 
     execute(cmd, timeout=60)
