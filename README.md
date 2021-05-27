@@ -17,12 +17,21 @@ It is derived from https://github.com/fgrehm/vagrant-lxc-base-boxes. It is a rew
   - 18.10
   - 19.04
   - 19.10
+  - 20.04
+  - 20.10
+  - 21.04
 * Fedora
   - 29
   - 30
   - 31
+  - 32
+  - 33
+  - 34
 * Alpine
   - 3.10
+  - 3.11
+  - 3.12
+  - 3.13
 * CentOS
   - 7
   - 8
