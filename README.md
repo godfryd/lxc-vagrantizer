@@ -20,6 +20,8 @@ It is derived from https://github.com/fgrehm/vagrant-lxc-base-boxes. It is a rew
   - 20.04
   - 20.10
   - 21.04
+  - 21.10
+  - 22.04
 * Fedora
   - 29
   - 30
@@ -64,6 +66,11 @@ Example:
 | Ubuntu 18.10 | [isc/lxc-ubuntu-18.10](https://vagrantcloud.com/isc/lxc-ubuntu-18.10) |
 | Ubuntu 19.04 | [isc/lxc-ubuntu-19.04](https://vagrantcloud.com/isc/lxc-ubuntu-19.04) |
 | Ubuntu 19.10 | [isc/lxc-ubuntu-19.10](https://vagrantcloud.com/isc/lxc-ubuntu-19.10) |
+| Ubuntu 20.04 | [isc/lxc-ubuntu-20.04](https://vagrantcloud.com/isc/lxc-ubuntu-20.04) |
+| Ubuntu 20.10 | [isc/lxc-ubuntu-20.10](https://vagrantcloud.com/isc/lxc-ubuntu-20.10) |
+| Ubuntu 21.04 | [isc/lxc-ubuntu-21.04](https://vagrantcloud.com/isc/lxc-ubuntu-21.04) |
+| Ubuntu 21.10 | [MonkZ/lxc-ubuntu-21.10](https://vagrantcloud.com/MonkZ/lxc-ubuntu-21.10) |
+| Ubuntu 22.04 | [MonkZ/lxc-ubuntu-22.04](https://vagrantcloud.com/MonkZ/lxc-ubuntu-22.04) |
 | Fedora 29 | [isc/lxc-fedora-29](https://vagrantcloud.com/isc/lxc-fedora-29) |
 | Fedora 30 | [isc/lxc-fedora-30](https://vagrantcloud.com/isc/lxc-fedora-30) |
 | Fedora 31 | [isc/lxc-fedora-31](https://vagrantcloud.com/isc/lxc-fedora-31) |
