@@ -36,6 +36,7 @@ It is derived from https://github.com/fgrehm/vagrant-lxc-base-boxes. It is a rew
   - 3.13
   - 3.14
   - 3.15
+  - 3.16
 * CentOS
   - 7
   - 8
@@ -80,6 +81,7 @@ Example:
 | Alpine 3.13 | [isc/lxc-alpine-3.13](https://vagrantcloud.com/isc/lxc-alpine-3.13) |
 | Alpine 3.14 | [isc/lxc-alpine-3.14](https://vagrantcloud.com/isc/lxc-alpine-3.14) |
 | Alpine 3.15 | [isc/lxc-alpine-3.15](https://vagrantcloud.com/isc/lxc-alpine-3.15) |
+| Alpine 3.16 | [isc/lxc-alpine-3.16](https://vagrantcloud.com/isc/lxc-alpine-3.16) |
 | CentOS 7 | [isc/lxc-centos-7](https://vagrantcloud.com/isc/lxc-centos-7) |
 | CentOS 8 | [isc/lxc-centos-8](https://vagrantcloud.com/isc/lxc-centos-8) |
 
